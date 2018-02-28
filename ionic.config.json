@@ -1,0 +1,8 @@
+{
+  "name": "MyCampus",
+  "app_id": "c3895e84",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
