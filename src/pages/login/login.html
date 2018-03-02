@@ -1,0 +1,11 @@
+<ion-content padding>
+
+    <h2>Se connecter</h2>
+
+    <ion-list no-lines>
+        <button *ngFor="let module of modules" (click)="navigate(module.path)" ion-item>
+            {{module.name}}
+        </button>
+    </ion-list>
+
+</ion-content>
