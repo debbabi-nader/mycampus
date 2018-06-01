@@ -13,5 +13,6 @@ export class Product {
     photo: string;
     sales: Sale[];
     feedbacks: Feedback[];
+    type: string;
 
 }

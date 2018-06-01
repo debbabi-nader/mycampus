@@ -1,20 +1,23 @@
-import { Club } from './club.model';
+import { Photo } from './photo.model';
+import { Address } from './address.model';
 import { Feedback } from './feedback.model';
-import { User } from './user.model';
 
 
 export class Event {
 
-    key?: string;
+    key: number;
     name: string;
-    startDate: Date;
-    endDate: Date;
-    location: string;
-    organizator: Club;
+    startDate: string;
+    startTime: string;
+    endDate: string;
+    endTime: string;
+    location: Address;
+    organizator: string;
     description: string;
+    tags: string[];
     mainPhoto: string;
-    photoGallery: string[];
-    interested: User[];
+    photoGallery: Photo[];
+    interested: string[];
     feedbacks: Feedback[];
 
 }

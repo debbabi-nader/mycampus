@@ -1,14 +1,20 @@
+import { Degree } from './degree.model';
+import { Institution } from './institution.model';
+import { University } from './university.model';
+
 export class User {
 
-    key?: string;
+    uid: string;
     userType: string;
     firstName: string;
     lastName: string;
     icn: string;
-    password: string;
     email: string;
     phoneNumber: number;
     profilePicture: string;
-    institute: string;
+    university: University;
+    institution: Institution;
+    degree: Degree;
+    grade: number;
 
 }

@@ -14,3 +14,14 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+@import "assets/scss/splash-screen.scss";
+@import "assets/scss/side-menu.scss";
+@import "assets/scss/event-card.scss";
+@import "assets/scss/feedback-modal.scss";
+@import "assets/scss/create-event-modal.scss";
+@import "assets/scss/event-details-modal.scss";
+@import "assets/scss/map-modal.scss";
+@import "assets/scss/spinner-yellow.scss";
+@import "assets/scss/edit-recruitment-quetions-modal.scss";

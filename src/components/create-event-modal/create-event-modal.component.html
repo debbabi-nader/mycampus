@@ -1,0 +1,103 @@
+<ion-content class="create-event-modal">
+    
+    <div class="create-event-modal-main-container">
+
+        <ion-icon *ngIf="showModalHeader" class="close-icon" ios="md-close" md="md-close" (click)="dismissModal()"></ion-icon>
+        <p *ngIf="showModalHeader" class="create-event-modal-header">Créez votre<br>prochain événement!</p>
+
+        <div class="slides-container" [style.height]="(showModalHeader) ? '80%' : 'fit-content'">
+            <ion-slides spaceBetween="50" (ionSlideDidChange)="slideChanged()">
+                <ion-slide class="slide">
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Titre de l'Événement</ion-label>
+                        <ion-input type="text" [(ngModel)]="event.name" (ionFocus)="onHideModalHeader()" (ionBlur)="onShowModalHeader()"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-input" *ngIf="event.tags && event.tags.length < 5">
+                        <ion-label floating>Quelques Mots Clés</ion-label>
+                        <ion-input type="text" [(ngModel)]="tag" (ionFocus)="onHideModalHeader()" (ionBlur)="onShowModalHeader()"></ion-input>
+                        <button clear ion-button item-end color="secondary" icon-only class="input-btn" *ngIf="tag && tag.trim().length > 0" (click)="addTag()">
+                            <ion-icon ios="md-add" md="md-add"></ion-icon>
+                        </button>
+                    </ion-item>
+
+                    <div class="tags-container" *ngIf="event.tags && event.tags.length > 0">
+                        <div class="tag" *ngFor="let tag of event.tags; let i = index;">
+                            <span class="tag-label">{{tag}}</span>
+                            <span class="delete" (click)="deleteTag(i)">&times;</span>
+                        </div>
+                    </div>
+
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Plus d'Informations</ion-label>
+                        <ion-textarea autosize autocomplete="on" autocorrect="on" rows="5" [(ngModel)]="event.description" (ionFocus)="onHideModalHeader()" (ionBlur)="onShowModalHeader()"></ion-textarea>
+                    </ion-item>
+                </ion-slide>
+
+                <ion-slide class="slide">
+                    <p class="datetime-separator">L'Événement commence à</p>
+
+                    <div class="date-time">
+                        <div class="date">
+                            <ion-item class="float-lbl-input">
+                                <ion-label floating>Date</ion-label>
+                                <ion-datetime displayFormat="DDDD DD MMM, YYYY" pickerFormat="MMMM/DD/YYYY" cancelText="Annuler" doneText="Ok" min="{{currentDate}}" max="{{maxDate}}" [(ngModel)]="event.startDate"></ion-datetime>
+                            </ion-item>
+                        </div>
+                        <div class="time">
+                            <ion-item class="float-lbl-input">
+                                <ion-label floating>Heure</ion-label>
+                                <ion-datetime displayFormat="HH:mm" cancelText="Annuler" doneText="Ok" [(ngModel)]="event.startTime"></ion-datetime>
+                            </ion-item>
+                        </div>
+                    </div>
+                    
+                    <p class="datetime-separator" style="margin-top:40px;">L'Événement se termine à</p>
+
+                    <div class="date-time">
+                        <div class="date">
+                            <ion-item class="float-lbl-input">
+                                <ion-label floating>Date</ion-label>
+                                <ion-datetime displayFormat="DDDD DD MMM, YYYY" pickerFormat="MMMM/DD/YYYY" cancelText="Annuler" doneText="Ok" min="{{currentDate}}" max="{{maxDate}}" [(ngModel)]="event.endDate"></ion-datetime>
+                            </ion-item>
+                        </div>
+                        <div class="time">
+                            <ion-item class="float-lbl-input">
+                                <ion-label floating>Heure</ion-label>
+                                <ion-datetime displayFormat="HH:mm" cancelText="Annuler" doneText="Ok" [(ngModel)]="event.endTime"></ion-datetime>
+                            </ion-item>
+                        </div>
+                    </div>
+
+                    <div class="event-location-container">
+                        <ion-icon class="map-btn" ios="md-map" md="md-map" (click)="presentMapModal()"></ion-icon>
+                        <p *ngIf="!event.location || !event.location.name || event.location.name.length <= 0">Localisation de l'Événement</p>
+                        <p *ngIf="event.location && event.location.name && event.location.name.length > 0">{{event.location.name}}</p>
+                    </div>
+
+                </ion-slide>
+
+                <ion-slide class="slide">
+                    <div class="cover-photo-container" (click)="presentPhotoActionSheet()" [style.background]="(event.mainPhoto && event.mainPhoto.length > 0) ? 'url('+event.mainPhoto+')' : 'transparent'">
+                        <div class="placeholder" *ngIf="!event.mainPhoto || event.mainPhoto.length === 0">
+                            <i class="fas fa-camera"></i>
+                            <p>Ajouter une photo de couverture pour votre événement</p>
+                        </div>
+                    </div>
+                </ion-slide>
+            </ion-slides>
+        </div>
+
+    </div>
+
+</ion-content>
+
+<ion-footer *ngIf="showModalHeader" class="create-event-modal-footer">
+    <div class="dots-container" *ngIf="activeSlideIndex < 2">
+        <span class="dot" [ngClass]="{'full': activeSlideIndex === 0}"></span>
+        <span class="dot" [ngClass]="{'full': activeSlideIndex === 1}"></span>
+        <span class="dot"></span>
+    </div>
+
+    <button class="validation-btn" *ngIf="activeSlideIndex >= 2" ion-button color="secondary" round large block (click)="createEvent()">Créez votre Événement</button>
+</ion-footer>

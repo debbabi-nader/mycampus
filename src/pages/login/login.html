@@ -1,11 +1,25 @@
-<ion-content padding>
+<ion-content class="login-page">
 
-    <h2>Se connecter</h2>
+    <div class="logo-container">
+        <img src="assets/imgs/myCampus-logo-v1.png">
+    </div>
 
-    <ion-list no-lines>
-        <button *ngFor="let module of modules" (click)="navigate(module.path)" ion-item>
-            {{module.name}}
-        </button>
-    </ion-list>
+    <div class="login-form-container">
+        <ion-item class="float-lbl-input">
+            <ion-label floating>Votre email</ion-label>
+            <ion-input type="text" [(ngModel)]="credentials.email"></ion-input>
+        </ion-item>
+
+        <ion-item class="float-lbl-input">
+            <ion-label floating>Votre mot de passe</ion-label>
+            <ion-input type="password" [(ngModel)]="credentials.password"></ion-input>
+        </ion-item>
+    </div>
+
+    <div class="action-container">
+        <button ion-button color="secondary" round block large (click)="login()">Se connecter</button>
+        <p class="signup-link">Vous n'avez pas de compte?<br><span (click)="navigate('SignupPage')">Inscrivez vous!</span>
+        </p>
+    </div>
 
 </ion-content>

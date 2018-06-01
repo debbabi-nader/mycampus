@@ -1,6 +1,6 @@
 export class Contact {
 
-    type: string;
+    name: string;
     value: string;
 
 }

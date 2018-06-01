@@ -1,6 +1,8 @@
 export class RecruitmentQuestion {
 
-    key?: string;
+    key: number;
     question: string;
+    possibleAnswers: string[];
+    idealAnswer: number;
 
 }

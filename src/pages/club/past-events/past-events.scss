@@ -1,0 +1,81 @@
+.md, .ios {
+
+    #stats-section {
+        width: 100%;
+        height: 280px;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+        background: color($colors, light);
+        color: white;
+
+        .stats-section-wrapper {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            background: color($colors, light);
+
+            .chart-label {
+                font-size: 14px;
+                margin: 0;
+                margin-bottom: 20px;
+                font-weight: normal;
+                text-align: left;
+            }
+
+            .chart-container {
+                width: 100%;
+                position: relative;
+                box-sizing: border-box;
+
+                canvas {
+                }
+            }
+
+            .details-container {
+                width: 100%;
+                position: relative;
+                box-sizing: border-box;
+
+                &:after {
+                    content: "";
+                    display: block;
+                    clear: both;
+                }
+
+                p {
+                    margin: 0;
+                }
+
+                .events-nbr {
+                    float: left;
+                    font-size: 16px;
+
+                    span {
+                        font-size: 36px;
+                        font-weight: lighter;
+                        margin-right: 4px;
+                    }
+                }
+
+                .average-info {
+                    float: right;
+                    font-size: 18px;
+
+                    span {
+                        font-size: 36px;
+                        font-weight: lighter;
+                        margin-right: 4px;
+                    }
+
+                    i {
+                        color: #FFAB00;
+                        font-size: 26px;
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+
+    }
+}

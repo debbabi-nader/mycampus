@@ -1,0 +1,86 @@
+<ion-content>
+    
+    <section id="header-section" [ngStyle]="{'background':'url('+event.mainPhoto+')'}">
+
+        <div class="header-wrapper">
+            <ion-icon ios="md-close" md="md-close" (click)="dismissModal()"></ion-icon>
+            <div *ngIf="event.feedbacks && event.feedbacks.length > 0" class="average-rate-container">
+                <div class="average-rate">
+                    <p>{{averageRate}}</p>
+                </div>
+                <div class="average-rate-details">
+                    <div class="container">
+                        <div class="star-rating" style="margin-bottom: 5px;">
+                            <div class="back-stars">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+
+                                <div class="front-stars" [ngStyle]="{'width': averageRatePercentage}">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p>{{event.feedbacks.length}}<i class="fas fa-users"></i></p>
+                    </div>
+                </div>
+            </div>
+            <p class="event-title">{{event.name}}</p>
+        </div>
+
+    </section>
+
+    <section *ngIf="event.feedbacks && event.feedbacks.length > 0" id="feedback-section" padding>
+
+        <div class="feedback-card" *ngFor="let feedback of event.feedbacks; let i = index;">
+            <div class="feedback-header">
+                <div class="avatar-container">
+                    <div class="avatar-green-bg">
+                        <img [src]="assets/imgs/default-avatar.png">
+                    </div>
+                </div>
+                <div class="user-details-container">
+                    <p class="user-full-name">John Doe</p>
+                    <p class="date">{{feedback.date}}</p>
+                    <div class="star-rating" style="font-size:10px;">
+                        <div class="back-stars">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                                
+                            <div class="front-stars" [ngStyle]="{'width': getRatePercentage(feedback.rate)}">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feedback-body">
+                <p>{{feedback.content}}</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section *ngIf="!event.feedbacks || event.feedbacks.length <= 0" id="feedback-placeholder-section" padding>
+
+        <div class="placeholder">
+            <ion-icon ios="md-chatbubbles" md="md-chatbubbles"></ion-icon>
+            <p>Pas de feedbacks encore</p>
+        </div>
+
+    </section>
+
+</ion-content>

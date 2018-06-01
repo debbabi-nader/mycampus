@@ -1,0 +1,123 @@
+<ion-content class="signup-page">
+
+    <div class="logo-container" *ngIf="!isSignedUp">
+        <img src="assets/imgs/myCampus-logo-v1.png">
+    </div>
+
+    <div class="slides-container" *ngIf="!isSignedUp">
+        <ion-slides (ionSlideDidChange)="slideChanged()">
+            <ion-slide class="slide">
+                <div class="list-container">
+                    <p>Vous êtes..?</p>
+
+                    <ion-list no-lines>
+                        <button ion-item class="option" (click)="selectUserType(1)">
+                            Étudiant
+                        </button>
+                        <button ion-item class="option" (click)="selectUserType(2)">
+                            Résponsable Club
+                        </button>
+                        <button ion-item class="option" (click)="selectUserType(3)">
+                            Résponsable Buvette
+                        </button>
+                        <button ion-item class="option" (click)="selectUserType(4)">
+                            Résponsable Réstaurant
+                        </button>
+                    </ion-list>
+                </div>
+            </ion-slide>
+            <ion-slide class="slide">
+                <div class="form-container">
+                    <p>Saisissez vos données...</p>
+
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Votre Prénom</ion-label>
+                        <ion-input type="text" [(ngModel)]="user.firstName"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Votre Nom</ion-label>
+                        <ion-input type="text" [(ngModel)]="user.lastName"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Votre CIN</ion-label>
+                        <ion-input type="text" [(ngModel)]="user.icn"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Votre Email</ion-label>
+                        <ion-input type="text" [(ngModel)]="credentials.email"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Votre Mot de Passe</ion-label>
+                        <ion-input type="password" [(ngModel)]="credentials.password"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-input">
+                        <ion-label floating>Confirmez votre Mot de Passe</ion-label>
+                        <ion-input type="password" [(ngModel)]="passwordConfirmation"></ion-input>
+                    </ion-item>
+                </div>
+
+                <div class="action-container">
+                    <button ion-button color="secondary" round block large (click)="nextSignupStep()">Suivant</button>
+                </div>
+            </ion-slide>
+            <ion-slide class="slide">
+                <div class="form-container">
+                    <p>Une dernière étape!</p>
+
+                    <ion-item class="float-lbl-input" *ngIf="user.userType==='CLUB'">
+                        <ion-label floating>Nom de votre Club</ion-label>
+                        <ion-input type="text" [(ngModel)]="club.name"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-input" *ngIf="user.userType==='STUDENT' || user.userType==='CLUB'">
+                        <ion-label floating>Votre Numéro de Tél</ion-label>
+                        <ion-input type="number" [(ngModel)]="user.phoneNumber"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-select">
+                        <ion-label floating>Votre Université</ion-label>
+                        <ion-select [(ngModel)]="user.university" (ionChange)="universitySelectChange()">
+                            <ion-option *ngFor="let university of universities" [value]="university">{{university.universityName}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-select" *ngIf="user.userType!=='CANTEEN' && institutions && institutions.length>0">
+                        <ion-label floating>Votre Établissement</ion-label>
+                        <ion-select [(ngModel)]="user.institution" (ionChange)="institutionSelectChange()">
+                            <ion-option *ngFor="let institution of institutions" [value]="institution">{{institution.institutionName}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-select" *ngIf="user.userType==='STUDENT' && degrees && degrees.length>0">
+                        <ion-label floating>Votre Formation</ion-label>
+                        <ion-select [(ngModel)]="user.degree" (ionChange)="degreeSelectChange()">
+                            <ion-option *ngFor="let degree of degrees" [value]="degree">{{degree.degreeName}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item class="float-lbl-select" *ngIf="user.userType==='STUDENT' && grades && grades.length>0">
+                        <ion-label floating>Votre Niveau d'Étude</ion-label>
+                        <ion-select [(ngModel)]="user.grade">
+                            <ion-option *ngFor="let grade of grades; let i = index;" [value]="i+1">{{grade}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </div>
+
+                <div class="action-container">
+                    <button ion-button color="secondary" round block large (click)="signup()">Créez votre Compte</button>
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+    <div class="confirmation-container" *ngIf="isSignedUp">
+        <img src="assets/imgs/myCampus-logo-v1.png">
+        <p>Bienvenue {{user.firstName}}!</p>
+    </div>
+
+</ion-content>

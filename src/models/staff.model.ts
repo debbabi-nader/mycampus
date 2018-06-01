@@ -1,9 +1,8 @@
 export class Staff {
 
-    firstName: string;
-    lastName: string;
+    key: number;
+    staffName: string;
     photo: string;
-    position: string;
     responsability: string;
 
 }

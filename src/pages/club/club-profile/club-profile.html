@@ -2,19 +2,266 @@
 
     <ion-navbar hideBackButton color="primary">
 
-        <ion-buttons start>
-            <button ion-button icon-only menuToggle>
-                <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-buttons>
+        <button ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
 
-        <ion-title>Club</ion-title>
+        <ion-title>Vitrine club</ion-title>
 
     </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+    <section id="banner">
+
+        <div class="cover-container" [style.background]="(club.coverPhoto && club.coverPhoto.length > 0) ? 'url('+club.coverPhoto+')' : '#00BF9A'">
+            <img *ngIf="club.coverPhoto && club.coverPhoto.length > 0" src="assets/imgs/transparent.png" [imageViewer]="club.coverPhoto">
+        </div>
+
+        <button ion-button icon-only small clear class="cover-btn" (click)="presentCoverPhotoActionSheet()">
+            <ion-icon ios="md-image" md="md-image"></ion-icon>
+        </button>
+
+        <div class="logo-container" *ngIf="!club.logo || club.logo.length === 0">
+            <img *ngIf="!isAdmin" src="assets/imgs/default-avatar-club.png">
+            <img *ngIf="isAdmin" src="assets/imgs/default-avatar-club.png" (click)="presentLogoActionSheet()">
+        </div>
+
+        <div class="logo-container" *ngIf="club.logo && club.logo.length > 0">
+            <img *ngIf="!isAdmin" [src]="club.logo" imageViewer>
+            <img *ngIf="isAdmin" [src]="club.logo" (click)="presentLogoActionSheet()">
+        </div>
+
+    </section>
+
+    <section id="club-details">
+
+        <div *ngIf="!updateClubDetails" class="wrapper">
+
+            <ion-icon *ngIf="isAdmin" class="update-club-details-btn" ios="md-create" md="md-create" (click)="onUpdateClubDetails()"></ion-icon>
+
+            <div id="club-name">
+                <p>{{club.name}}</p>
+            </div>
+
+            <div *ngIf="foundationYear" id="foundation-year">
+                <p>Fondé en {{foundationYear}}</p>
+            </div>
+
+            <div id="institut">
+                <p>{{club.admin?.institution.institutionName}}</p>
+            </div>
+
+            <div *ngIf="club.tags && club.tags.length > 0" class="tags-container">
+                <div *ngFor="let tag of club.tags" class="tag">
+                    <span class="tag-label">{{tag}}</span>
+                </div>
+            </div>
+
+            <div id="club-presentation">
+                <p>{{club.description}}</p>
+            </div>
+
+        </div>
+
+        <div *ngIf="updateClubDetails" class="wrapper">
+
+            <ion-item class="float-lbl-input">
+                <ion-label floating>Nom du club</ion-label>
+                <ion-input type="text" [(ngModel)]="name"></ion-input>
+            </ion-item>
+
+            <div class="date">
+                <ion-item class="float-lbl-input">
+                    <ion-label floating>Date de fondation du club</ion-label>
+                    <ion-datetime displayFormat="DD MMMM YYYY" pickerFormat="MMMM/DD/YYYY" cancelText="Annuler" doneText="Ok" max="{{currentDate}}" [(ngModel)]="foundationDate"></ion-datetime>
+                </ion-item>
+            </div>
+
+            <ion-item class="float-lbl-input" *ngIf="tags.length < 5">
+                <ion-label floating>Quelques Mots Clés</ion-label>
+                <ion-input type="text" [(ngModel)]="tag"></ion-input>
+                <button clear ion-button item-end color="secondary" icon-only class="input-btn" *ngIf="tag && tag.trim().length>0" (click)="addTag()">
+                    <ion-icon ios="md-add" md="md-add"></ion-icon>
+                </button>
+            </ion-item>
+
+            <div class="tag-update-container" *ngIf="tags && tags.length > 0">
+                <div class="tag" *ngFor="let tag of tags; let i = index;">
+                    <span class="tag-label">{{tag}}</span>
+                    <span class="delete" (click)="deleteTag(i)">&times;</span>
+                </div>
+            </div>
+
+            <ion-item class="float-lbl-input">
+                <ion-label floating>A propos de votre club</ion-label>
+                <ion-textarea autosize autocomplete="on" autocorrect="on" rows="5" [(ngModel)]="description"></ion-textarea>
+            </ion-item>
+
+            <ion-item class="float-lbl-input">
+                <ion-label floating>Combien de membre dans votre club?</ion-label>
+                <ion-input type="number" [(ngModel)]="membersNumber"></ion-input>
+            </ion-item>
+
+            <ion-item class="float-lbl-input">
+                <ion-label floating>Nombre d'événements</ion-label>
+                <ion-input type="number" [(ngModel)]="eventsNumber"></ion-input>
+            </ion-item>
+
+            <div class="club-details-action-conatiner">
+                <button ion-button color="secondary" round outline (click)="cancelClubDetailsUpdate()">Annuler</button>
+                <button ion-button color="secondary" round (click)="saveClubDetailsUpdate()">Enregistrer</button>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="club-staff">
+
+        <div id="club-numbers">
+
+            <div class="wrapper" [style.padding-bottom]="updateClubDetails ? '0px' : '20px'">
+
+                <div *ngIf="!updateClubDetails" class="container">
+
+                    <div class="one-third">
+                        <p class="number">
+                            <i class="fas fa-user"></i>
+                            <span *ngIf="club.staff && club.staff.length > 0">{{club.staff?.length}}</span>
+                        </p>
+                        <p class="label">Staff</p>
+                    </div>
+
+                    <div class="one-third separator">
+                        <p class="number">
+                            <i class="fas fa-users"></i>
+                            <span *ngIf="club.membersNumber && club.membersNumber > 0">{{club.membersNumber}}</span>
+                        </p>
+                        <p class="label">Membres</p>
+                    </div>
+
+                    <div class="one-third">
+                        <p class="number">
+                            <i class="far fa-calendar-alt"></i>
+                            <span *ngIf="club.eventsNumber && club.eventsNumber > 0">{{club.eventsNumber}}</span>
+                        </p>
+                        <p class="label">Evénements</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="wrapper">
+
+            <div *ngIf="club.staff && club.staff.length > 0" class="header">
+                <p *ngIf="isAdmin">Votre Equipe</p>
+                <p *ngIf="!isAdmin">Notre Equipe</p>
+                <ion-icon class="add-staff-btn" *ngIf="isAdmin && staffIndex === -1 && club.staff && club.staff.length > 0" ios="md-add-circle"
+                    md="md-add-circle" (click)="addStaff()"></ion-icon>
+            </div>
+
+            <div *ngIf="(!club.staff || club.staff.length <= 0) && isAdmin" class="club-staff-placeholder" (click)="addStaff()">
+                <ion-icon ios="md-person-add" md="md-person-add"></ion-icon>
+                <p>Ajoutez votre équipe</p>
+            </div>
+
+            <ion-slides #staffSlides *ngIf="club.staff && club.staff.length > 0" class="staff-slides-container" loop="true" slidesPerView="1.5">
+                <ion-slide *ngFor="let clubStaff of club.staff; let i = index;">
+                    <div class="staff-card">
+                        <ion-icon *ngIf="isAdmin && staffIndex !== i" class="update-staff-btn" ios="md-create" md="md-create" (click)="updateStaff(i)"></ion-icon>
+                        <ion-icon *ngIf="isAdmin && staffIndex === i && !isNewStaff" class="delete-staff-btn" ios="md-trash" md="md-trash" (click)="deleteStaff()"></ion-icon>
+                        <div class="card-wrapper">
+                            <div class="staff-photo-container">
+                                <img *ngIf="staffIndex !== i" [src]="(clubStaff.photo && clubStaff.photo.length > 0) ? clubStaff.photo : 'assets/imgs/default-avatar.png'">
+                                <img *ngIf="staffIndex === i" [src]="(staff.photo && staff.photo.length > 0) ? staff.photo : 'assets/imgs/default-avatar.png'"
+                                    (click)="presentStaffPhotoActionSheet()">
+                            </div>
+
+                            <div class="staff-details-container" *ngIf="staffIndex !== i">
+                                <div class="staff-details">
+                                    <p class="staff-name">{{clubStaff.staffName}}</p>
+                                    <p class="staff-position">{{clubStaff.responsability}}</p>
+                                </div>
+                            </div>
+
+                            <div class="staff-details-update-form-container" *ngIf="staffIndex === i">
+                                <ion-item class="placeholder-input">
+                                    <ion-input placeholder="Nom du Staff" type="text" [(ngModel)]="staff.staffName"></ion-input>
+                                </ion-item>
+
+                                <ion-item class="placeholder-input">
+                                    <ion-input placeholder="Résponsabilité" type="text" [(ngModel)]="staff.responsability"></ion-input>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </div>
+                </ion-slide>
+            </ion-slides>
+
+            <div class="staff-action-conatiner" *ngIf="staffIndex !== -1">
+                <button ion-button color="secondary" round small outline (click)="cancelStaffUpdate()">Annuler</button>
+                <button ion-button color="secondary" round small (click)="saveStaffUpdate()">Enregistrer</button>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="club-gallery">
+
+        <div *ngIf="club.photoGallery && club.photoGallery.length > 0" class="header">
+            <p>Galerie</p>
+            <ion-icon class="add-photo-btn" *ngIf="isAdmin && club.photoGallery && club.photoGallery.length > 0" ios="md-add-circle"
+                md="md-add-circle" (click)="presentGalleryPhotoActionSheet()"></ion-icon>
+        </div>
+
+        <div *ngIf="(!club.photoGallery || club.photoGallery.length <= 0) && isAdmin" class="photo-gallery-placeholder" (click)="presentGalleryPhotoActionSheet()">
+            <ion-icon ios="md-images" md="md-images"></ion-icon>
+            <p>Ajoutez des photos à votre galerie</p>
+        </div>
+
+        <ion-slides *ngIf="club.photoGallery && club.photoGallery.length > 0" #gallerySlides class="gallery-slides-container" loop="true"
+            slidesPerView="2">
+            <ion-slide *ngFor="let photo of club.photoGallery; let i = index;">
+                <ion-icon *ngIf="isAdmin" class="delete-photo-btn" ios="md-trash" md="md-trash" (click)="deleteGalleryPhoto(i)"></ion-icon>
+                <img [src]="photo.downloadUrl" class="thumb-img" imageViewer>
+            </ion-slide>
+        </ion-slides>
+
+    </section>
+
+    <section id="club-contact">
+
+        <div class="wrapper">
+
+            <ion-icon class="add-contact-btn" *ngIf="isAdmin && club.contacts && club.contacts.length > 0 && club.contacts.length < 5" ios="md-add-circle" md="md-add-circle" (click)="addContact()"></ion-icon>
+
+            <div class="header" *ngIf="club.contacts && club.contacts.length > 0">
+                <p *ngIf="isAdmin">Vos Contacts</p>
+                <p *ngIf="!isAdmin">Nous Contacter</p>
+            </div>
+
+            <div class="contact-list" *ngIf="club.contacts && club.contacts.length > 0">
+                <ul>
+                    <li *ngFor="let contact of club.contacts; let i = index;">
+                        <img *ngIf="!isAdmin" [src]="getContactIconUrl(contact.name)">
+                        <img *ngIf="isAdmin" [src]="getContactIconUrl(contact.name)" (click)="updateContact(i)">
+                    </li>
+                </ul>
+            </div>
+
+            <div *ngIf="isAdmin && (!club.contacts || club.contacts.length <= 0)" class="contact-placeholder" (click)="addContact()">
+                <ion-icon ios="md-chatbubbles" md="md-chatbubbles"></ion-icon>
+                <p>Ajoutez vos contacts</p>
+            </div>
+        </div>
+
+    </section>
 
 </ion-content>

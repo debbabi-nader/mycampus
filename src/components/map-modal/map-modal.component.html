@@ -1,0 +1,22 @@
+<ion-header class="map-modal-header">
+    <div class="map-modal-header-content">
+        <ion-icon class="close-icon" ios="md-close" md="md-close" (click)="dismissModal()"></ion-icon>
+        <p class="title">Localisation de l'Événement</p>
+    </div>
+    <ion-searchbar (ionInput)="searchPlace($event)" (ionClear)="clearSearch()" placeholder="Recherche" debounce="500"></ion-searchbar>
+    <div class="results-container">
+        <div class="results-list">
+            <ion-list>
+                <ion-item *ngFor="let result of results; let i = index;" (click)="selectResult(i)">{{result.name}}</ion-item>
+            </ion-list>
+        </div>
+    </div>
+</ion-header>
+
+<ion-content class="map-modal-content">
+    <div #map class="map-container"></div>
+</ion-content>
+
+<ion-footer class="map-modal-footer">
+    <button class="validation-btn" ion-button color="secondary" round large block (click)="choosePlace()">Choisir la Localisation</button>
+</ion-footer>

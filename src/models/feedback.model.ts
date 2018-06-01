@@ -1,6 +1,8 @@
+import { User } from './user.model';
+
 export class Feedback {
 
-    userID: string;
+    user: User;
     content: string;
     rate: number;
     date: Date;

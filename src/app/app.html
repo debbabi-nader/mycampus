@@ -1,13 +1,50 @@
+<!-- <div *ngIf="showSplash" class="splash">
+    <div class="spinner">
+    </div>
+</div> -->
+
 <ion-menu id="sideMenu" [content]="content" persistent="true">
 
-    <ion-content padding>
-    
-        <ion-list no-lines>
-            <button *ngFor="let content of sideMenuContent" (click)="navigate(content.path)" ion-item menuClose>
-                {{content.name}}
-            </button>
-        </ion-list>
-    
+    <ion-content class="side-menu">
+
+        <div class="side-menu-header">
+
+            <div class="avatar-container">
+                <div class="avatar-green-bg">
+                    <img src="assets/imgs/default-avatar.png">
+                </div>
+            </div>
+
+            <div class="general-info-container">
+                <p class="username">Film Club</p>
+                <p class="detail">@ISAMM</p>
+            </div>
+
+        </div>
+
+        <div class="side-menu-options" padding>
+            <ion-list no-lines>
+                <button ion-item detail-none menuClose *ngFor="let content of sideMenuContent" (click)="navigate(content.path)" class="side-menu-option ripple">
+                    <span class="option-icon-container"><i class="{{content.name | sideMenuIconsMatcher}}"></i></span>{{content.name}}
+                </button>
+                <button ion-item detail-none menuClose class="side-menu-option ripple" (click)="navigate('AccountPage')">
+                    <span class="option-icon-container"><i class="fas fa-lock"></i></span>Votre compte
+                </button>
+                <button ion-item detail-none menuClose class="side-menu-option ripple" (click)="navigate('SettingsPage')">
+                    <span class="option-icon-container"><i class="fas fa-cog"></i></span>Paramètres
+                </button>
+                <button ion-item detail-none menuClose class="side-menu-option ripple" (click)="navigate('HelpPage')">
+                    <span class="option-icon-container"><i class="fas fa-question-circle"></i></span>Aide
+                </button>
+                <button ion-item detail-none menuClose class="side-menu-option ripple" (click)="navigate('AboutPage')">
+                    <span class="option-icon-container"><i class="fas fa-info-circle"></i></span>A propos
+                </button>
+                <button ion-item detail-none menuClose class="side-menu-option ripple" (click)="showLogoutAlert()">
+                    <span class="option-icon-container"><i class="fas fa-sign-out-alt"></i></span>Se deconnecter
+                </button>
+            </ion-list>
+        </div>
+
     </ion-content>
 
 </ion-menu>

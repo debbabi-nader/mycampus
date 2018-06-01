@@ -1,0 +1,45 @@
+<ion-content class="edit-recruitment-quetions-modal">
+    
+    <div class="edit-recruitment-quetions-modal-header-container">
+        <ion-icon class="close-icon" ios="md-close" md="md-close" (click)="dismissModal()"></ion-icon>
+        <p class="edit-recruitment-quetions-modal-header">Préparez les questions<br>de l'entretien</p>
+    </div>
+
+    <div class="edit-recruitment-quetions-modal-main-container">
+        <div class="question-container">
+            <ion-item class="float-lbl-input">
+                <ion-label floating>Ajouter une question</ion-label>
+                <ion-input type="text" [(ngModel)]="recruitmentQuestion.question"></ion-input>
+            </ion-item>
+
+            <ion-item class="float-lbl-input">
+                <ion-label floating>Ajouter les réponses possibles</ion-label>
+                <ion-input type="text" [(ngModel)]="possibleAnswer"></ion-input>
+                <button clear ion-button item-end color="secondary" icon-only class="input-btn" *ngIf="possibleAnswer && possibleAnswer.trim().length > 0" (click)="addPossibleAnswer()">
+                    <ion-icon ios="md-add" md="md-add"></ion-icon>
+                </button>
+            </ion-item>
+
+            <ion-list *ngIf="recruitmentQuestion.possibleAnswers && recruitmentQuestion.possibleAnswers.length > 0" radio-group [(ngModel)]="recruitmentQuestion.idealAnswer" class="possible-answers-list">
+                <ion-item *ngFor="let possibleAnswer of recruitmentQuestion.possibleAnswers; let i = index;">
+                    <span class="delete" (click)="deletePossibleAnswer(i)">&times;</span>
+                    <ion-label>{{possibleAnswer}}</ion-label>
+                    <ion-radio [value]="i"></ion-radio>
+                    
+                    
+                    <!-- <ion-icon class="delete" ios="md-close" md="md-close" (click)="deletePossibleAnswer(i)"></ion-icon> -->
+                </ion-item>
+            </ion-list>
+
+            <div class="recruitment-quetion-action-conatiner">
+                <button ion-button color="secondary" round outline (click)="cancel()">Annuler</button>
+                <button ion-button color="secondary" round (click)="save()">Enregistrer</button>
+            </div>
+        </div>
+
+        <ion-fab right bottom>
+            <button ion-fab color="secondary" (click)="onAddQuestion()"><ion-icon name="add"></ion-icon></button>
+        </ion-fab>
+    </div>
+
+</ion-content>

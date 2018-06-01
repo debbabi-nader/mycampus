@@ -1,0 +1,79 @@
+<ion-header>
+
+    <ion-navbar hideBackButton color="primary">
+
+        <button ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+
+        <ion-title>Événements</ion-title>
+
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+    <section id="stats-section">
+        <ion-slides #statSlider spaceBetween="50" effect="coverflow">
+            <ion-slide>
+                <div class="stats-section-wrapper">
+                    <p class="chart-label">Les Feedbacks de vos 5 derniers évenements</p>
+                    <div *ngIf="rateChart" class="chart-container">
+                        <canvas id="rate-chart"></canvas>
+                    </div>
+                    <div class="details-container">
+                        <p class="events-nbr"><span>26</span>Événements</p>
+                        <p class="average-info"><span>3.8</span>/5<i class="fas fa-star"></i></p>
+                    </div>
+                </div>
+            </ion-slide>
+
+            <ion-slide>
+                <div class="stats-section-wrapper">
+                    <p class="chart-label">Les intéressés par vos 5 derniers évenements</p>
+                    <div *ngIf="attendeesChart" class="chart-container">
+                        <canvas id="attendee-chart"></canvas>
+                    </div>
+                    <div class="details-container">
+                        <p class="events-nbr"><span>26</span>Événements</p>
+                        <p class="average-info"><span>82</span><i class="fas fa-users"></i></p>
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </section>
+
+    <section id="past-events-section" padding>
+
+        <div class="event-card" (click)="presentDetailsModal()">
+            <div class="event-card-cover">
+                
+            </div>
+            <div class="event-card-details">
+                <p class="event-title">ISAMM Movie Premiere</p>
+                <div class="tags-container">
+                    <div class="tag">
+                        <span class="tag-label">culture</span>
+                    </div>
+                    <div class="tag">
+                        <span class="tag-label">cinéma</span>
+                    </div>
+                    <div class="tag">
+                        <span class="tag-label">conférence</span>
+                    </div>
+                </div>
+                <p class="event-detail"><span class="logo-container"><i class="far fa-calendar-alt"></i></span>28 Mars 2018 - 12PM</p>
+                <p class="event-detail"><span class="logo-container"><i class="fas fa-map-marker-alt"></i></span>Campus Manouba, Amphi Carthage</p>
+            </div>
+            <div class="event-card-footer">
+                <ion-item>
+                    <button ion-button clear item-start>53 Intéressés</button>
+                    <button ion-button clear item-end (click)="presentFeedbackModal($event)">Feedback</button>
+                </ion-item>
+            </div>
+        </div>
+
+    </section>
+
+</ion-content>

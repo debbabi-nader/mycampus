@@ -1,0 +1,499 @@
+.md, .ios {
+
+    .event-details-header {
+        width: 100%;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        color: white !important;
+
+        .header-wrapper {
+            width: 100%;
+            height: 200px;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            background: linear-gradient(153deg, rgba(0,170,141,1) 0%, rgba(13,170,134,0.7) 60%, rgba(255,171,0,0.5) 100%);
+
+            img {
+                width: 100%;
+                height: 100%;
+                border: none !important;
+            }
+            
+            ion-icon {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 20px;
+                color: white;
+            }
+
+            .header-bottom {
+                width: 88%;
+                box-sizing: border-box;
+                position: absolute;
+                bottom: 20px;
+
+                .event-title {
+                    margin: 0;
+                    font-size: 22px;
+                    font-weight: bolder;
+                }
+
+                .club-name {
+                    margin: 0;
+                    margin-top: 6px;
+                    font-size: 16px;
+
+                    span {
+                        font-weight: bolder;
+                    }
+                }
+    
+                .float-lbl-input {
+                    background: transparent !important;
+                    padding-left: 0px !important;
+                    
+    
+                    ion-label {
+                        color: white;
+                    }
+    
+                    ion-input {
+    
+                        input {
+                            color: white;
+                            font-size: 22px;
+                        }
+                    }
+                }
+    
+                .input-has-focus, .item-input-has-focus {
+                    ion-label {
+                        color: #FFAB00;
+                    }
+                }
+            }
+        }
+    }
+
+    .event-details-body {
+        font-size: 16px !important;
+
+        .wrapper {
+            padding: 0px 16px;
+            box-sizing: border-box;
+
+            .float-lbl-input {
+                background: transparent !important;
+                padding-left: 0px !important;
+    
+                ion-datetime {
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                }
+    
+                .input-btn {
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                }
+            }
+    
+            .input-has-focus, .item-input-has-focus {
+                ion-label {
+                    color: #FFAB00;
+                }
+            }
+
+            .datetime-separator {
+                font-size: 16px;
+                margin: 0px;
+                margin-top: 26px;
+                text-align: left;
+            }
+
+            .event-location-container {
+                width: 100%;
+                height: fit-content;
+                position: relative;
+                text-align: left;
+                border-bottom: 1px solid #dedede;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                box-sizing: border-box;
+                margin: 26px 0px;
+    
+                .map-btn {
+                    position: absolute;
+                    right: 8px;
+                    top: 5px;
+                    color: #FFAB00;
+                    font-size: 24px;
+                }
+    
+                p {
+                    margin: 0px;
+                    font-size: 16px;
+                    max-width: 90%;
+                }
+            }
+        }
+
+        .tags-container {
+            width: 100%;
+            height: fit-content;
+            margin: 0px;
+            margin-top: 16px;
+            box-sizing: border-box;
+
+            &:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+            .tag {
+                float: left;
+                height: 24px;
+                width: fit-content;
+                padding: 0px 12px;
+                margin: 3px 5px;
+                background: color($colors, secondary);
+                color: white;
+                border-radius: 30px;
+                box-sizing: border-box;
+
+                &:after {
+                    content: "";
+                    display: block;
+                    clear: both;
+                }
+
+                .tag-label {
+                    float: left;
+                    line-height: 24px;
+                    vertical-align: middle;
+                }
+
+                .delete {
+                    float: left;
+                    line-height: 24px;
+                    vertical-align: middle;
+                    margin-left: 10px;
+                    font-size: 22px;
+                }
+            }
+        }
+
+        .date-container {
+            width: 100%;
+            margin: 0px;
+            margin-top: 20px;
+            box-sizing: border-box;
+
+            &:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+            .calandar-logo-container {
+                float: left;
+                width: 30px;
+
+                span {
+                    line-height: 50px;
+                }
+            }
+
+            .date-info-container {
+                float: left;
+
+                p {
+                    margin: 4px 0px;
+                }
+            }
+        }
+
+        .location-container {
+            width: 100%;
+            margin: 0px;
+            margin-top: 16px;
+            box-sizing: border-box;
+            position: relative;
+
+            &:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+            .pin-logo-container {
+                float: left;
+                width: 30px;
+
+                span {
+                    line-height: 20px;
+                }
+            }
+
+            .location-info-container {
+                float: left;
+
+                p {
+                    margin: 0px;
+                }
+            }
+
+            .map-btn {
+                position: absolute;
+                right: 20px;
+                top: -4px;
+                color: #FFAB00;
+                font-size: 24px;
+            }
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            margin: 0px;
+            margin-top: 16px;
+            box-sizing: border-box;
+            position: relative;
+            background: color($colors, grey_light);
+        }
+
+        .gallery-header-container {
+            width: 100%;
+            margin: 0px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+
+            p {
+                margin: 0;
+            }
+
+            .add-photo-btn {
+                position: absolute;
+                top: -7px;
+                right: 20px;
+                color: #FFAB00;
+                font-size: 30px;
+            }
+        }
+
+        .gallery-container {
+            width: 100%;
+            margin: 0px;
+            margin-top: 30px;
+            padding: 0px;
+            box-sizing: border-box;
+            position: relative;
+
+            .header {
+                width: 100%;
+                padding-left: 16px;
+                margin-bottom: 16px;
+                text-align: left;
+                position: relative;
+
+                p {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+
+            .gallery-slides-container {
+                box-sizing: border-box;
+
+                ion-slide.swiper-slide {
+                    box-sizing: border-box;
+                    height: 150px;
+                    left: 25%;
+                    position: relative;
+
+                    .delete-photo-btn {
+                        position: absolute;
+                        top: 15px;
+                        right: 20px;
+                        color: #FFAB00;
+                    }
+                }
+
+                .thumb-img {
+                    height: 150px;
+                    width: 100%;
+                    object-fit: cover;
+                    padding: 10px;
+                }
+            }
+        }
+
+        .gallery-placeholder, .description-placeholder {
+            width: 100%;
+            box-sizing: border-box;
+            margin: 30px 0px;
+            text-align: center;
+            
+            ion-icon {
+                font-size: 30px;
+            }
+
+            p {
+                margin: 0;
+                margin-top: 10px;
+                font-size: 14px;
+            }
+        }
+
+        .spinner-container {
+            margin: 30px 0px;
+        }
+
+        .description-container {
+            width: 100%;
+            margin: 0px;
+            margin-top: 16px;
+            box-sizing: border-box;
+            position: relative;
+
+            .header {
+                width: 100%;
+                margin-bottom: 16px;
+                text-align: left;
+                position: relative;
+
+                p {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+
+            .description {
+                width: 100%;
+                margin: 0;
+                margin-bottom: 20px;
+                font-size: 16px;
+                text-align: justify;
+            }
+        }
+
+        .date-time {
+            width: 100%;
+            box-sizing: border-box;
+
+            &:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+            .date {
+                width: 65%;
+                box-sizing: border-box;
+                margin-right: 10px;
+                float: left;
+            }
+
+            .time {
+                width: 30%;
+                box-sizing: border-box;
+                float: left;
+            }
+        }
+
+        .bottom-placeholder {
+            width: 100%;
+            padding-bottom: 80px;
+        }
+
+        .contact-container {
+            width: 100%;
+            box-sizing: border-box;
+            background: color($colors, primary);
+            color: white;
+
+            .header {
+                width: 100%;
+                margin-bottom: 16px;
+                text-align: left;
+                position: relative;
+
+                p {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+
+            .contact {
+                width: 100%;
+                box-sizing: border-box;
+                text-align: left;
+                margin: 8px 0px;
+
+                img {
+                    height: 16px;
+                    margin-right: 12px;
+                    line-height: 20px;
+                    vertical-align: middle;
+                    display: inline-block;
+                }
+
+                p {
+                    font-size: 16px;
+                    line-height: 20px;
+                    vertical-align: middle;
+                    display: inline-block;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    .event-details-footer {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 16px;
+        background: white;
+        text-align: center;
+
+        button {
+            text-transform: none !important;
+            box-shadow: unset !important;
+            padding: 0px 10px;
+        }
+
+    }
+
+    .star-rating {
+        display: flex;
+        font-size: 14px;
+
+        .back-stars {
+            display: flex;
+            color: #E6E6E6;
+            position: relative;
+
+            .front-stars {
+                display: flex;
+                color: #FFAB00;
+                overflow: hidden;
+                position: absolute;
+                top: 0;
+            }
+        }
+    }
+
+}

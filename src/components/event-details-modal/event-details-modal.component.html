@@ -1,0 +1,210 @@
+<ion-content>
+
+    <section class="event-details-header" [ngStyle]="{'background':'url('+mainPhoto+')'}">
+
+        <div class="header-wrapper">
+            <img src="assets/imgs/transparent.png" [imageViewer]="mainPhoto">
+
+            <ion-icon *ngIf="!updateEventDetails" ios="md-close" md="md-close" (click)="dismissModal()"></ion-icon>
+            <ion-icon *ngIf="updateEventDetails" ios="md-image" md="md-image" (click)="presentMainPhotoActionSheet()"></ion-icon>
+            
+            <div class="header-bottom">
+                <p *ngIf="!updateEventDetails" class="event-title">{{event.name}}</p>
+                <ion-item *ngIf="updateEventDetails" class="float-lbl-input">
+                    <ion-label floating>Titre de l'Événement</ion-label>
+                    <ion-input type="text" [(ngModel)]="eventUpdate.name"></ion-input>
+                </ion-item>
+                <p *ngIf="!updateEventDetails" class="club-name">Organisé par <span>{{club.name}}</span></p>
+            </div>
+        </div>
+
+    </section>
+
+    <section *ngIf="!updateEventDetails" class="event-details-body">
+
+        <div *ngIf="event.tags && event.tags.length > 0" class="tags-container wrapper">
+            <div *ngFor="let tag of event.tags" class="tag">
+                <span class="tag-label">{{tag}}</span>
+            </div>
+        </div>
+
+        <div class="date-container wrapper">
+            <div class="calandar-logo-container">
+                <span><i class="far fa-calendar-alt"></i></span>
+            </div>
+            <div class="date-info-container">
+                <p>{{event.startDate}}  {{event.startTime}}</p>
+                <p>{{event.endDate}}  {{event.endTime}}</p>
+            </div>
+        </div>
+
+        <div class="location-container wrapper">
+            <div class="pin-logo-container">
+                <span><i class="fas fa-map-marker-alt"></i></span>
+            </div>
+            <div class="location-info-container">
+                <p>{{event.location?.name}}</p>
+            </div>
+            <ion-icon class="map-btn" ios="md-map" md="md-map" (click)="onShowMap()"></ion-icon>
+        </div>
+
+        <div *ngIf="showMap">
+            <div #map class="map-container wrapper"></div>
+        </div>
+
+        <div *ngIf="event.photoGallery && event.photoGallery.length > 0 && !spin" class="gallery-container">
+            <div class="header">
+                <p>Galerie de l'événement</p>
+            </div>
+
+            <ion-slides #gallerySlides class="gallery-slides-container" loop="true" slidesPerView="2">
+                <ion-slide *ngFor="let photo of event.photoGallery; let i = index;">
+                    <img [src]="photo.downloadUrl" class="thumb-img" imageViewer>
+                </ion-slide>
+            </ion-slides>
+        </div>
+
+        <div *ngIf="(!event.photoGallery || event.photoGallery.length <= 0) && !spin" class="gallery-placeholder wrapper">
+            <ion-icon ios="md-images" md="md-images"></ion-icon>
+            <p>Pas d'images disponibles pour cet événement</p>
+        </div>
+
+        <div *ngIf="spin" class="spinner-container">
+            <div class="lds-rolling">
+                <div>
+
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="event.description && event.description.length > 0" class="description-container wrapper">
+            <div class="header">
+                <p>A propos cet événement</p>
+            </div>
+            <p class="description">{{event.description}}</p>
+        </div>
+
+        <div *ngIf="!event.description || event.description.length <= 0" class="description-placeholder wrapper">
+            <ion-icon ios="md-information-circle" md="md-information-circle"></ion-icon>
+            <p>Pas de d'autres informations disponibles pour cet événement</p>
+        </div>
+
+        <div *ngIf="club.contacts && club.contacts.length > 0" class="contact-container" padding [style.padding-bottom]="(!isAdmin) ? '20px' : '16px'">
+            <div class="header">
+                <p>Pour plus d'informations</p>
+            </div>
+
+            <div class="contact" *ngFor="let contact of club.contacts">
+                <img [src]="getContactIconUrl(contact.name)">
+                <p>{{contact.value}}</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section *ngIf="updateEventDetails" class="event-details-body">
+
+        <div class="wrapper">
+            <ion-item class="float-lbl-input" *ngIf="eventUpdate.tags && eventUpdate.tags.length < 5">
+                <ion-label floating>Quelques Mots Clés</ion-label>
+                <ion-input type="text" [(ngModel)]="tag"></ion-input>
+                <button clear ion-button item-end color="secondary" icon-only class="input-btn" *ngIf="tag && tag.trim().length > 0" (click)="addTag()">
+                    <ion-icon ios="md-add" md="md-add"></ion-icon>
+                </button>
+            </ion-item>
+        </div>
+
+        <div class="tags-container wrapper" *ngIf="eventUpdate.tags && eventUpdate.tags.length > 0">
+            <div class="tag" *ngFor="let tag of eventUpdate.tags; let i = index;">
+                <span class="tag-label">{{tag}}</span>
+                <span class="delete" (click)="deleteTag(i)">&times;</span>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <p class="datetime-separator">L'Événement commence à</p>
+        </div>
+
+        <div class="date-time wrapper">
+            <div class="date">
+                <ion-item class="float-lbl-input">
+                    <ion-label floating>Date</ion-label>
+                    <ion-datetime displayFormat="DDDD DD MMM, YYYY" pickerFormat="MMMM/DD/YYYY" cancelText="Annuler" doneText="Ok" min="{{currentDate}}" max="{{maxDate}}" [(ngModel)]="eventUpdate.startDate"></ion-datetime>
+                </ion-item>
+            </div>
+            <div class="time">
+                <ion-item class="float-lbl-input">
+                    <ion-label floating>Heure</ion-label>
+                    <ion-datetime displayFormat="HH:mm" cancelText="Annuler" doneText="Ok" [(ngModel)]="eventUpdate.startTime"></ion-datetime>
+                </ion-item>
+            </div>
+        </div>
+        
+        <div class="wrapper">
+            <p class="datetime-separator">L'Événement se termine à</p>
+        </div>
+
+        <div class="date-time wrapper">
+            <div class="date">
+                <ion-item class="float-lbl-input">
+                    <ion-label floating>Date</ion-label>
+                    <ion-datetime displayFormat="DDDD DD MMM, YYYY" pickerFormat="MMMM/DD/YYYY" cancelText="Annuler" doneText="Ok" min="{{currentDate}}" max="{{maxDate}}" [(ngModel)]="eventUpdate.endDate"></ion-datetime>
+                </ion-item>
+            </div>
+            <div class="time">
+                <ion-item class="float-lbl-input">
+                    <ion-label floating>Heure</ion-label>
+                    <ion-datetime displayFormat="HH:mm" cancelText="Annuler" doneText="Ok" [(ngModel)]="eventUpdate.endTime"></ion-datetime>
+                </ion-item>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <div class="event-location-container">
+                <ion-icon class="map-btn" ios="md-map" md="md-map" (click)="presentMapModal()"></ion-icon>
+                <p *ngIf="!eventUpdate.location || !eventUpdate.location.name || eventUpdate.location.name.length <= 0">Localisation de l'Événement</p>
+                <p *ngIf="eventUpdate.location && eventUpdate.location.name && eventUpdate.location.name.length > 0">{{eventUpdate.location.name}}</p>
+            </div>
+        </div>
+
+        <div class="gallery-header-container wrapper">
+            <p>Galerie de l'événement</p>
+            <ion-icon class="add-photo-btn" ios="md-add-circle" md="md-add-circle" (click)="presentEventGalleryPhotoActionSheet()"></ion-icon>
+        </div>
+        
+        <div *ngIf="eventUpdate.photoGallery && eventUpdate.photoGallery.length > 0" class="gallery-container" style="margin: 0px 0px 10px 0px">
+            <ion-slides #gallerySlides class="gallery-slides-container" loop="true" slidesPerView="2">
+                <ion-slide *ngFor="let photo of eventUpdate.photoGallery; let i = index;">
+                        <ion-icon class="delete-photo-btn" ios="md-trash" md="md-trash" (click)="deleteEventGalleryPhoto(i)"></ion-icon>
+                    <img [src]="photo.downloadUrl" class="thumb-img" imageViewer>
+                </ion-slide>
+            </ion-slides>
+        </div>
+        
+        <div class="wrapper">
+            <ion-item class="float-lbl-input">
+                <ion-label floating>Plus d'Informations</ion-label>
+                <ion-textarea autosize autocomplete="on" autocorrect="on" rows="5" [(ngModel)]="eventUpdate.description"></ion-textarea>
+            </ion-item>
+        </div>
+
+        <div class="bottom-placeholder"></div>
+
+    </section>
+
+    <ion-fab *ngIf="isAdmin && !updateEventDetails" right bottom>
+        <button ion-fab color="secondary" (click)="onUpdateEventDetails()"><ion-icon name="create"></ion-icon></button>
+    </ion-fab>
+
+</ion-content>
+
+<ion-footer *ngIf="updateEventDetails" class="event-details-footer">
+    <button ion-button color="secondary" round outline (click)="cancelEventDetailsUpdate()">Annuler</button>
+    <button ion-button color="secondary" round (click)="saveEventDetailsUpdate()">Enregistrer</button>
+    <button ion-button color="secondary" round (click)="deleteEvent()">Supprimer</button>
+</ion-footer>
+
+<ion-footer *ngIf="!isAdmin" class="event-details-footer">
+    <button *ngIf="!isInterested" ion-button color="secondary" round full (click)="addInterested()">Je suis intéressé</button>
+    <button *ngIf="isInterested" ion-button color="secondary" round full (click)="removeInterested()">Je ne suis pas intéressé</button>
+</ion-footer>
